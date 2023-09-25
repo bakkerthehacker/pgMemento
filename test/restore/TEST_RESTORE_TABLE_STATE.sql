@@ -60,7 +60,7 @@ BEGIN
     AND relkind = 'v';
 
   ASSERT tables[1] = 'object', 'Incorrect historic view for ''object'' table. Found %', tables[1];
-  ASSERT tables[2] = 'tests', 'Incorrect historic view for ''tests'' table. Found %', tables[2];
+  ASSERT tables[2] = 'Tests', 'Incorrect historic view for ''Tests'' table. Found %', tables[2];
 END
 $$
 LANGUAGE plpgsql;
@@ -90,7 +90,7 @@ BEGIN
     AND relkind = 'r';
 
   ASSERT tables[1] = 'object', 'Incorrect historic table for ''object'' table. Found %', tables[1];
-  ASSERT tables[2] = 'tests', 'Incorrect historic table for ''tests'' table. Found %', tables[2];
+  ASSERT tables[2] = 'Tests', 'Incorrect historic table for ''Tests'' table. Found %', tables[2];
 
   -- drop the restored target schema
   DROP SCHEMA public_1_10 CASCADE;

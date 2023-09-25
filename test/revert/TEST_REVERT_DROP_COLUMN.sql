@@ -99,7 +99,7 @@ BEGIN
     pgmemento.audit_table_log t
     ON t.id = c.audit_table_id
   WHERE
-    t.table_name = 'tests'
+    t.table_name = 'Tests'
     AND t.schema_name = 'public'
     AND lower(c.txid_range) = test_transaction;
 

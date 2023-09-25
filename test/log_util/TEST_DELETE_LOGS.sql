@@ -24,21 +24,21 @@ SELECT nextval('pgmemento.test_seq') AS n \gset
 \echo 'TEST ':n': pgMemento delete from log tables'
 
 -- create new table for tests
-CREATE TABLE public.util_test AS
+CREATE TABLE public."utilTest" AS
 SELECT 'update_me' AS a, 'delete_me' AS b;
 
 -- take baseline
-SELECT pgmemento.log_table_baseline('util_test', 'public', 'pgmemento_audit_id', TRUE);
+SELECT pgmemento.log_table_baseline('utilTest', 'public', 'pgmemento_audit_id', TRUE);
 
--- generate log entry for util_test table
-UPDATE public.util_test SET a = 'ok', b = 'delete_me_next'
+-- generate log entry for utilTest table
+UPDATE public."utilTest" SET a = 'ok', b = 'delete_me_next'
 RETURNING pgmemento_audit_id \gset
 
 SELECT set_config('pgmemento.delete_logs_test_aid', :pgmemento_audit_id::text, FALSE);
 
 SELECT transaction_id, event_key
   FROM pgmemento.table_event_log
- WHERE table_name = 'util_test'
+ WHERE table_name = 'utilTest'
    AND schema_name = 'public'
    AND op_id = 4 \gset
 
@@ -130,7 +130,7 @@ BEGIN
     event_ids
   FROM (
     SELECT
-      pgmemento.delete_table_event_log(transaction_id, 'util_test', 'public') AS e_id
+      pgmemento.delete_table_event_log(transaction_id, 'utilTest', 'public') AS e_id
     FROM
       pgmemento.table_event_log
     WHERE
@@ -160,7 +160,7 @@ DECLARE
   audit_table_log_ids INTEGER[];
 BEGIN
   -- first stop auditing for table to delete everything
-  PERFORM pgmemento.drop_table_audit('util_test', 'public', 'pgmemento_audit_id', TRUE, FALSE);
+  PERFORM pgmemento.drop_table_audit('utilTest', 'public', 'pgmemento_audit_id', TRUE, FALSE);
 
   -- now call delete function
   SELECT
@@ -168,7 +168,7 @@ BEGIN
   INTO
     audit_table_log_ids
   FROM
-    pgmemento.delete_audit_table_log('util_test', 'public') AS a_id;
+    pgmemento.delete_audit_table_log('utilTest', 'public') AS a_id;
 
   ASSERT array_length(audit_table_log_ids, 1) = 1, 'Error: Expected id array with 1 entry, but has %', array_length(audit_table_log_ids, 1);
   ASSERT (
@@ -178,7 +178,7 @@ BEGIN
       FROM
         pgmemento.table_event_log
       WHERE
-        table_name = 'util_test'
+        table_name = 'utilTest'
         AND schema_name = 'public'
     )
   ), 'Error: Logs for given table still exist in table_event_log table!';

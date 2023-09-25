@@ -97,14 +97,14 @@ BEGIN
   FROM
     pgmemento.audit_table_log
   WHERE
-    table_name = 'tests'
+    table_name = 'Tests'
     AND schema_name = 'public'
     AND upper(txid_range) = test_transaction;
 
   -- save table log id for next test
   PERFORM set_config('pgmemento.revert_rename_table_test2', tabid::text, FALSE);
 
-  ASSERT tabname = 'tests', 'Did not find table ''%'' in audit_table_log', tabname;
+  ASSERT tabname = 'Tests', 'Did not find table ''%'' in audit_table_log', tabname;
 
   -- get new parameters of renamed table
   SELECT
@@ -118,14 +118,14 @@ BEGIN
   FROM
     pgmemento.audit_table_log
   WHERE
-    table_name = 'test'
+    table_name = 'Test'
     AND schema_name = 'public'
     AND lower(txid_range) = test_transaction;
 
   -- save table log id for next test
   PERFORM set_config('pgmemento.revert_rename_table_test3', tabid::text, FALSE);
 
-  ASSERT tabname = 'test', 'Did not find table ''%'' in audit_table_log', tabname;
+  ASSERT tabname = 'Test', 'Did not find table ''%'' in audit_table_log', tabname;
   ASSERT upper(tid_range) IS NULL, 'Error: Renamed table should still exist and upper boundary of transaction range should be NULL, % instead', upper(tid_range);
 END;
 $$

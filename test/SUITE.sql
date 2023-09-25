@@ -63,6 +63,6 @@ VALUES
 \echo
 \echo 'Uninstall test tables'
 DROP TABLE object;
-DROP TABLE util_test;
+DROP TABLE "utilTest";
 
 DROP SEQUENCE pgmemento.test_seq;

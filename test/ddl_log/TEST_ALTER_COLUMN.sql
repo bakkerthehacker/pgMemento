@@ -30,7 +30,7 @@ SELECT nextval('pgmemento.test_seq') AS n \gset
 
 -- set value for range column to check if data is logged when column is altered
 UPDATE
-  tests
+  "Tests"
 SET
   test_tsrange_column = tsrange(now()::timestamp, NULL, '(]')
 WHERE
@@ -54,7 +54,7 @@ DECLARE
   test_tsrange tsrange;
 BEGIN
   -- alter data type of one column
-  ALTER TABLE public.tests ALTER test_tsrange_column TYPE tstzrange USING tstzrange(lower(test_tsrange_column), upper(test_tsrange_column), '(]');
+  ALTER TABLE public."Tests" ALTER test_tsrange_column TYPE tstzrange USING tstzrange(lower(test_tsrange_column), upper(test_tsrange_column), '(]');
 
   -- save transaction_id for next tests
   test_transaction := current_setting('pgmemento.t' || test_txid)::int;
@@ -66,7 +66,7 @@ BEGIN
     pgmemento.table_event_log
   WHERE
     transaction_id = test_transaction
-    AND table_name = 'tests'
+    AND table_name = 'Tests'
     AND schema_name = 'public'
     AND op_id = alter_column_op_id;
 
@@ -149,7 +149,7 @@ DECLARE
   test_event TEXT;
 BEGIN
   -- rename a column
-  ALTER TABLE public.tests RENAME COLUMN test_tsrange_column TO test_tstzrange_column;
+  ALTER TABLE public."Tests" RENAME COLUMN test_tsrange_column TO test_tstzrange_column;
 
   -- save transaction_id for next tests
   test_transaction := current_setting('pgmemento.t' || test_txid)::int;
