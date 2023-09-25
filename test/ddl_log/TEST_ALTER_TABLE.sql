@@ -35,7 +35,7 @@ DECLARE
   test_event TEXT;
 BEGIN
   -- rename test table to tests
-  ALTER TABLE public.test RENAME TO tests;
+  ALTER TABLE public."Test" RENAME TO "Tests";
 
   -- save transaction_id for next tests
   test_transaction := current_setting('pgmemento.t' || test_txid)::int;
@@ -96,14 +96,14 @@ BEGIN
   FROM
     pgmemento.audit_table_log
   WHERE
-    table_name = 'test'
+    table_name = 'Test'
     AND schema_name = 'public'
     AND upper(txid_range) = test_transaction;
 
   -- save table log id for next test
   PERFORM set_config('pgmemento.rename_table_test2', tabid::text, FALSE);
 
-  ASSERT tabname = 'test', 'Did not find table ''%'' in audit_table_log', tabname;
+  ASSERT tabname = 'Test', 'Did not find table ''%'' in audit_table_log', tabname;
 
   -- get new parameters of renamed table
   SELECT
@@ -119,14 +119,14 @@ BEGIN
   FROM
     pgmemento.audit_table_log
   WHERE
-    table_name = 'tests'
+    table_name = 'Tests'
     AND schema_name = 'public'
     AND lower(txid_range) = test_transaction;
 
   -- save table log id for next test
   PERFORM set_config('pgmemento.rename_table_test3', tabid::text, FALSE);
 
-  ASSERT tabname = 'tests', 'Did not find table ''%'' in audit_table_log', tabname;
+  ASSERT tabname = 'Tests', 'Did not find table ''%'' in audit_table_log', tabname;
   ASSERT old_tab_log_id = new_tab_log_id, 'Error: audit_table_log.log_id mismatch: old % vs. new %', old_tab_log_id, new_tab_log_id;
   ASSERT upper(tid_range) IS NULL, 'Error: Renamed table should still exist and upper boundary of transaction range should be NULL, % instead', upper(tid_range);
 END;

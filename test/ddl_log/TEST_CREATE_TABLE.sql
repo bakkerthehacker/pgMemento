@@ -37,7 +37,7 @@ DECLARE
   test_event TEXT;
 BEGIN
   -- create a new test table
-  CREATE TABLE public.test (
+  CREATE TABLE public."Test" (
     id SERIAL,
     test_column TEXT,
     test_geom_column public.geometry(PointZ,4326)
@@ -100,14 +100,14 @@ BEGIN
   FROM
     pgmemento.audit_table_log
   WHERE
-    table_name = 'test'
+    table_name = 'Test'
     AND schema_name = 'public'
     AND upper(txid_range) IS NULL;
 
   -- save table log id for next test
   PERFORM set_config('pgmemento.create_table_test2', tabid::text, FALSE);
 
-  ASSERT tabname = 'test', 'Did not find table ''%'' in audit_table_log', tabname;
+  ASSERT tabname = 'Test', 'Did not find table ''%'' in audit_table_log', tabname;
   ASSERT lower(tid_range) = test_transaction, 'Error: Starting transaction id % does not match the id % of CREATE TABLE event', lower(tid_range), test_transaction;
   ASSERT upper(tid_range) IS NULL, 'Error: Table should still exist and upper boundary of transaction range should be NULL, % instead', upper(tid_range);
 END;
@@ -163,7 +163,7 @@ LANGUAGE plpgsql;
 
 -- create one test row
 INSERT INTO
-  public.test (test_column)
+  public."Test" (test_column)
 VALUES
   ('test')
 RETURNING

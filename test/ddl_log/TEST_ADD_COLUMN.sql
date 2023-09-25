@@ -38,7 +38,7 @@ DECLARE
   new_jsonb_log JSONB;
 BEGIN
   -- add two new columns to tests table
-  ALTER TABLE public.tests ADD COLUMN test_json_column JSON DEFAULT '{"test": "value"}'::json, ADD COLUMN test_tsrange_column tsrange;
+  ALTER TABLE public."Tests" ADD COLUMN test_json_column JSON DEFAULT '{"test": "value"}'::json, ADD COLUMN test_tsrange_column tsrange;
 
   -- save transaction_id for next tests
   test_transaction := current_setting('pgmemento.t' || test_txid)::int;

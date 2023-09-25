@@ -38,7 +38,7 @@ BEGIN
   PERFORM set_config('pgmemento.session_info', '{"test":"drop table will first truncate table"}'::text, TRUE);
 
   -- drop table tests
-  DROP TABLE public.tests;
+  DROP TABLE public."Tests";
 
   -- save transaction_id for next tests
   test_transaction := current_setting('pgmemento.t' || test_txid)::int;
@@ -99,7 +99,7 @@ BEGIN
   FROM
     pgmemento.audit_table_log
   WHERE
-    table_name = 'tests'
+    table_name = 'Tests'
     AND schema_name = 'public'
     AND upper(txid_range) IS NOT NULL;
 
