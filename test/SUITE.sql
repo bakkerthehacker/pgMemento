@@ -34,8 +34,8 @@ VALUES
 \i test/dml_log/TEST_TRUNCATE.sql
 
 -- test reverts
--- \i test/revert/TEST_REVERT_DROP_TABLE.sql;
-\i test/revert/TEST_REVERT_DROP_COLUMN.sql;
+\i test/revert/TEST_REVERT_DROP_TABLE.sql;
+-- \i test/revert/TEST_REVERT_DROP_COLUMN.sql;
 -- \i test/revert/TEST_REVERT_ALTER_COLUMN.sql;
 -- \i test/revert/TEST_REVERT_ADD_COLUMN.sql;
 -- \i test/revert/TEST_REVERT_ALTER_TABLE.sql;

@@ -55,7 +55,7 @@ BEGIN
   FROM
     pgmemento.audit_table_log
   WHERE
-    table_name = 'tests'
+    table_name = 'Tests'
     AND schema_name = 'public'
     AND upper(txid_range) = tid;
 
@@ -123,7 +123,7 @@ BEGIN
   FROM
     pgmemento.audit_table_log
   WHERE
-    table_name = 'tests'
+    table_name = 'Tests'
     AND schema_name = 'public'
     AND upper(txid_range) IS NULL;
 
